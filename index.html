@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Sales Manager (ASM) - Career & Daily Growth Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Padauk (for clean Burmese rendering) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Padauk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        secondary: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Padauk', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .tab-active {
+            border-bottom: 3px solid #2563eb;
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand / Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-primary-600 text-white p-2.5 rounded-xl shadow-md">
+                        <i class="fa-solid fa-chart-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold text-slate-900 leading-tight">ASM Growth Hub</h1>
+                        <p class="text-xs text-slate-500 hidden sm:block">Senior ASM (15+ Yrs Exp • MBA) Career & Growth Portal</p>
+                    </div>
+                </div>
+
+                <!-- Right Side Quick Stats / Date -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex flex-col text-right">
+                        <span id="current-date" class="text-xs font-medium text-slate-500"></span>
+                        <span class="text-xs font-semibold text-secondary-600"><i class="fa-solid fa-fire mr-1"></i>Keep Pushing Targets!</span>
+                    </div>
+                    <button onclick="openAiCoachModal()" class="bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl shadow transition flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>AI Mentor</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-4 sm:space-x-8 overflow-x-auto no-scrollbar pt-1" aria-label="Tabs">
+                <button onclick="switchTab('daily')" id="tab-daily" class="tab-active whitespace-nowrap py-3 px-1 text-sm font-medium transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>နေ့စဉ်လုပ်ငန်း (Daily Routine)</span>
+                </button>
+                <button onclick="switchTab('english')" id="tab-english" class="text-slate-500 hover:text-slate-700 whitespace-nowrap py-3 px-1 text-sm font-medium transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-language"></i>
+                    <span>Sales & B2B English</span>
+                </button>
+                <button onclick="switchTab('interview-prep')" id="tab-interview-prep" class="text-slate-500 hover:text-slate-700 whitespace-nowrap py-3 px-1 text-sm font-medium transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-clipboard-question"></i>
+                    <span>အင်တာဗျူး ပြင်ဆင်ချက်များ</span>
+                </button>
+                <button onclick="switchTab('interview-qa')" id="tab-interview-qa" class="text-slate-500 hover:text-slate-700 whitespace-nowrap py-3 px-1 text-sm font-medium transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>အင်တာဗျူး အမေး/အဖြေ</span>
+                </button>
+                <button onclick="switchTab('profile')" id="tab-profile" class="text-slate-500 hover:text-slate-700 whitespace-nowrap py-3 px-1 text-sm font-medium transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <span>My Career Profile (15+ Yrs)</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ========================================== -->
+        <!-- SECTION 1: DAILY WORK & GROWTH ROUTINE     -->
+        <!-- ========================================== -->
+        <section id="section-daily" class="fade-in space-y-6">
+            <!-- Progress Overview Card -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="space-y-1 text-center md:text-left">
+                    <h2 class="text-lg font-bold text-slate-900">ယနေ့ လုပ်ဆောင်ရမည့် ASM တာဝန်များ (Daily Checklist)</h2>
+                    <p class="text-sm text-slate-500">အောင်မြင်သော Area Sales Manager တစ်ယောက်ဖြစ်ရန် နေ့စဉ် ပုံမှန်လုပ်ဆောင်သင့်သည့် အချက်များ</p>
+                </div>
+                <div class="w-full md:w-72 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                    <div class="flex justify-between text-xs font-semibold mb-1.5">
+                        <span class="text-slate-600">ယနေ့ ပြီးစီးမှု (Progress)</span>
+                        <span id="progress-text" class="text-primary-600">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                        <div id="progress-bar" class="bg-primary-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="mt-2 flex justify-end">
+                        <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-red-500 transition">
+                            <i class="fa-solid fa-rotate-right mr-1"></i>အစမှပြန်စမည်
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Custom Task Input -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-3">
+                <input type="text" id="new-task-input" placeholder="မိမိကိုယ်ပိုင် နေ့စဉ်လုပ်ငန်းတာဝန် အသစ်ထည့်ရန်..." class="flex-grow px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                <select id="new-task-category" class="px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option value="morning">မနက်ပိုင်း (Morning)</option>
+                    <option value="field">ကွင်းဆင်းချိန် (Field/Market)</option>
+                    <option value="evening">ညနေပိုင်း (Evening/Report)</option>
+                </select>
+                <button onclick="addCustomTask()" class="bg-primary-600 hover:bg-primary-700 text-white font-medium text-sm px-5 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                    <i class="fa-solid fa-plus mr-1.5"></i>ထည့်မည်
+                </button>
+            </div>
+
+            <!-- Daily Routine Columns -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="daily-tasks-container">
+                <!-- Rendered dynamically via JS -->
+            </div>
+
+            <!-- Core KPI & Growth Pillars -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-md">
+                <h3 class="text-base font-bold mb-4 flex items-center text-amber-400">
+                    <i class="fa-solid fa-trophy mr-2"></i>Senior ASM (FMCG + Automotive/Corporate) အဓိက KPI ၄ ချက်
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                        <div class="text-amber-300 font-bold text-sm mb-1">1. Sales Pipeline & Target</div>
+                        <p class="text-xs text-slate-300 leading-relaxed">Corporate Accounts နှင့် Dealer များ၏ အရောင်းလမ်းကြောင်း (Sales Pipeline) နှင့် လစဉ်/နှစ်စဉ် Target ပြည့်မီမှုကို စစ်ဆေးပါ။</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                        <div class="text-emerald-300 font-bold text-sm mb-1">2. Dealer & Market Expansion</div>
+                        <p class="text-xs text-slate-300 leading-relaxed">လုပ်ငန်းအခွင့်အလမ်းသစ် (New Business Opportunities) ရှာဖွေခြင်းနှင့် Dealer/Key Account များ တိုးချဲ့ထိန်းသိမ်းခြင်း။</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                        <div class="text-sky-300 font-bold text-sm mb-1">3. Team Coaching & Productivity</div>
+                        <p class="text-xs text-slate-300 leading-relaxed">Sales Team ၏ အရောင်းစွမ်းရည် (Sales Capabilities) နှင့် ညှိနှိုင်းရောင်းချနိုင်မှု (Closure Rate) တိုးတက်အောင် လမ်းညွှန်ပါ။</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                        <div class="text-purple-300 font-bold text-sm mb-1">4. Budget, Forecast & Collection</div>
+                        <p class="text-xs text-slate-300 leading-relaxed">အရောင်းကုန်ကျစရိတ် (Area Budget) ထိရောက်မှု၊ Sales Forecast တိကျမှုနှင့် ငွေကောက်ခံမှု (Receivables) မှန်ကန်စေရန် ထိန်းကျောင်းပါ။</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 2: LEARNING SALES ENGLISH          -->
+        <!-- ========================================== -->
+        <section id="section-english" class="hidden fade-in space-y-6">
+            <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">လုပ်ငန်းခွင်သုံး Sales & Management English</h2>
+                        <p class="text-sm text-slate-500">အစည်းအဝေးများ၊ အီးမေးလ်ပို့ခြင်းနှင့် အထက်လူကြီးများထံ Report တင်ရာတွင် အသုံးဝင်မည့် အသုံးအနှုန်းများ</p>
+                    </div>
+                    <!-- Filter Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterEnglish('all')" class="eng-filter-btn bg-primary-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-medium transition" data-filter="all">အားလုံး</button>
+                        <button onclick="filterEnglish('vocab')" class="eng-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-1.5 rounded-lg text-xs font-medium transition" data-filter="vocab">Sales & B2B ဝေါဟာရ</button>
+                        <button onclick="filterEnglish('meeting')" class="eng-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-1.5 rounded-lg text-xs font-medium transition" data-filter="meeting">အစည်းအဝေး & ညှိနှိုင်းမှု</button>
+                        <button onclick="filterEnglish('email')" class="eng-filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-3.5 py-1.5 rounded-lg text-xs font-medium transition" data-filter="email">Email & Executive Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Cards Grid -->
+            <div id="english-content-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Rendered dynamically via JS -->
+            </div>
+
+            <!-- AI English Practice Box -->
+            <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-6">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-indigo-600 text-white p-3 rounded-xl hidden sm:block">
+                        <i class="fa-solid fa-robot text-xl"></i>
+                    </div>
+                    <div class="flex-grow space-y-3">
+                        <h3 class="text-base font-bold text-indigo-950">AI ဖြင့် Sales Email / Report ဘာသာပြန် လေ့ကျင့်မည်</h3>
+                        <p class="text-xs sm:text-sm text-indigo-800">မိမိပြောလိုသော မြန်မာစာသား (ဥပမာ - ဒီလ အရောင်း Target မပြည့်ရတဲ့ အကြောင်းရင်းကို မန်နေဂျာဆီ တင်ပြချင်တာ) ကို ရေးထည့်ပြီး Professional English ပြောင်းလဲခိုင်းနိုင်ပါသည်။</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" id="eng-translate-input" placeholder="ဥပမာ - ပြိုင်ဘက် Brand တွေ ဈေးလျှော့ရောင်းနေလို့ ကျွန်တော်တို့ အရောင်းနည်းနည်းကျသွားပါတယ်..." class="flex-grow px-4 py-2.5 bg-white border border-indigo-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button onclick="translateToBusinessEnglish()" id="eng-translate-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm px-5 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-sparkles"></i>
+                                <span>Professional English ပြောင်းမည်</span>
+                            </button>
+                        </div>
+                        <div id="eng-translate-result" class="hidden bg-white p-4 rounded-xl border border-indigo-200 text-sm text-slate-800 space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 3: INTERVIEW PREPARATION GUIDE     -->
+        <!-- ========================================== -->
+        <section id="section-interview-prep" class="hidden fade-in space-y-6">
+            <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+                <h2 class="text-lg font-bold text-slate-900">Area Sales Manager (ASM) အင်တာဗျူးအတွက် ကြိုတင်ပြင်ဆင်ရမည့် အချက်များ</h2>
+                <p class="text-sm text-slate-500 mt-1">Sales Executive / Supervisor ရာထူးမှ ASM သို့တက်လှမ်းသူများနှင့် အတွေ့အကြုံရှိ ASM များ မဖြစ်မနေ ပြင်ဆင်ထားရမည့် အပိုင်းများ</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Prep Card 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex items-center space-x-3 text-primary-600">
+                        <div class="bg-primary-50 p-2.5 rounded-xl"><i class="fa-solid fa-chart-pie text-lg"></i></div>
+                        <h3 class="font-bold text-base text-slate-900">၁။ မိမိ၏ အရောင်းကိန်းဂဏန်းများ (Numbers & Achievements)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">အင်တာဗျူးတွင် "အရောင်းတက်အောင် လုပ်နိုင်ခဲ့ပါတယ်" ဟု ယေဘုယျပြောခြင်းထက် ကိန်းဂဏန်းအတိအကျဖြင့် ပြောပါ။</p>
+                    <ul class="text-sm text-slate-700 space-y-2 list-disc pl-5">
+                        <li>လစဉ်/နှစ်စဉ် Sales Target မည်မျှ ပြီးမြောက်ခဲ့သလဲ? (ဥပမာ - 105% Achievement)</li>
+                        <li>အရောင်းတိုးတက်မှုနှုန်း (Sales Growth %) မည်မျှ ရှိခဲ့သလဲ?</li>
+                        <li>ဆိုင်သစ် (New Outlets) မည်မျှ တိုးချဲ့နိုင်ခဲ့သလဲ?</li>
+                        <li>လူဦးရေ မည်မျှရှိသော Sales Team ကို အုပ်ချုပ်ခဲ့ဖူးသလဲ?</li>
+                    </ul>
+                </div>
+
+                <!-- Prep Card 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex items-center space-x-3 text-emerald-600">
+                        <div class="bg-emerald-50 p-2.5 rounded-xl"><i class="fa-solid fa-map-location-dot text-lg"></i></div>
+                        <h3 class="font-bold text-base text-slate-900">၂။ နယ်မြေနှင့် ဈေးကွက်ဗဟုသုတ (Territory & Market Knowledge)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">မိမိလျှောက်ထားမည့် ကုမ္ပဏီ၏ ထုတ်ကုန်များနှင့် ဈေးကွက်အခြေအနေကို ကြိုတင်လေ့လာသွားပါ။</p>
+                    <ul class="text-sm text-slate-700 space-y-2 list-disc pl-5">
+                        <li>ကုမ္ပဏီ၏ အဓိက ထုတ်ကုန် (Hero Products) များနှင့် ဈေးနှုန်းများကို သိရှိပါ။</li>
+                        <li>အဓိက ပြိုင်ဘက် (Competitors) များမှာ မည်သူတွေလဲ? သူတို့၏ အားသာချက်/အားနည်းချက်ကို လေ့လာပါ။</li>
+                        <li>General Trade (GT) နှင့် Modern Trade (MT) ဈေးကွက် ကွာခြားချက်နှင့် ကိုင်တွယ်ပုံကို ပြင်ဆင်ပါ။</li>
+                    </ul>
+                </div>
+
+                <!-- Prep Card 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex items-center space-x-3 text-amber-600">
+                        <div class="bg-amber-50 p-2.5 rounded-xl"><i class="fa-solid fa-users-gear text-lg"></i></div>
+                        <h3 class="font-bold text-base text-slate-900">၃။ ခေါင်းဆောင်မှုနှင့် အဖွဲ့အစည်းစီမံခန့်ခွဲမှု (Leadership & Coaching)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">ASM ဆိုသည်မှာ ကိုယ်တိုင်ရောင်းသူ (Doer) ထက် အဖွဲ့ကို ရောင်းနိုင်အောင် လုပ်ပေးရသူ (Enabler) ဖြစ်သည်။</p>
+                    <ul class="text-sm text-slate-700 space-y-2 list-disc pl-5">
+                        <li>အရောင်းကျနေသော Sales Rep တစ်ယောက်ကို မည်သို့ ပြန်လည်ဆွဲတင်မလဲ? (Coaching & Mentoring)</li>
+                        <li>အဖွဲ့အတွင်း စိတ်ဓာတ်တက်ကြွနေစေရန် (Motivation) မည်သို့ လုပ်ဆောင်မလဲ?</li>
+                        <li>စည်းကမ်းဖောက်ဖျက်သူ သို့မဟုတ် Target မပြည့်သူကို မည်သို့ ကိုင်တွယ်မလဲ?</li>
+                    </ul>
+                </div>
+
+                <!-- Prep Card 4 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex items-center space-x-3 text-purple-600">
+                        <div class="bg-purple-50 p-2.5 rounded-xl"><i class="fa-solid fa-chess text-lg"></i></div>
+                        <h3 class="font-bold text-base text-slate-900">၄။ 30-60-90 Days Plan (အလုပ်ရလျှင် လုပ်ဆောင်မည့် အစီအစဉ်)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">အင်တာဗျူးတွင် အထင်ကြီးစေမည့် အချက်မှာ ပထမ ရက် ၉၀ အတွင်း မည်သို့ အလုပ်လုပ်မည်ကို ရှင်းပြနိုင်ခြင်းဖြစ်သည်။</p>
+                    <ul class="text-sm text-slate-700 space-y-2 list-disc pl-5">
+                        <li><strong>ပထမ ရက် ၃၀:</strong> ဈေးကွက်လေ့လာခြင်း၊ Distributor များနှင့် တွေ့ဆုံခြင်း၊ Team ၏ အားသာချက်/အားနည်းချက် စစ်ဆေးခြင်း။</li>
+                        <li><strong>ရက် ၆၀:</strong> Route Plan များ ပြန်လည်ပြင်ဆင်ခြင်း၊ အရောင်းကျနေသော နေရာများကို အာရုံစိုက်ခြင်း။</li>
+                        <li><strong>ရက် ၉၀:</strong> Sales Target ပြည့်မီကျော်လွန်အောင် တွန်းအားပေးခြင်းနှင့် ဈေးကွက်ဝေစု (Market Share) တိုးချဲ့ခြင်း။</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 4: INTERVIEW Q&A (EN & MM)         -->
+        <!-- ========================================== -->
+        <section id="section-interview-qa" class="hidden fade-in space-y-6">
+            <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900">ASM အင်တာဗျူး အမေးများဆုံး မေးခွန်းနှင့် အဖြေများ (Q&A)</h2>
+                    <p class="text-sm text-slate-500">အင်္ဂလိပ်ဘာသာဖြင့် ဖြေဆိုပုံ နမူနာနှင့် မြန်မာဘာသာ အဓိပ္ပာယ်ရှင်းလင်းချက်များ</p>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="toggleAllAnswers(true)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg font-medium transition">အဖြေအားလုံး ဖွင့်ကြည့်ရန်</button>
+                    <button onclick="toggleAllAnswers(false)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg font-medium transition">အားလုံး ပြန်ပိတ်ရန်</button>
+                </div>
+            </div>
+
+            <!-- Q&A Accordion Container -->
+            <div id="qa-container" class="space-y-4">
+                <!-- Rendered dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 5: MY CAREER PROFILE (15+ YRS EXP) -->
+        <!-- ========================================== -->
+        <section id="section-profile" class="hidden fade-in space-y-6">
+            <!-- Executive Summary Banner -->
+            <div class="bg-gradient-to-r from-slate-900 via-primary-900 to-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-md relative overflow-hidden">
+                <div class="relative z-10 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span class="bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold px-3 py-1 rounded-full">15+ Years Leadership Experience</span>
+                            <h2 class="text-2xl sm:text-3xl font-bold mt-2">Senior Area Sales Manager</h2>
+                            <p class="text-primary-200 text-sm mt-1">MBA (2022) • B.A (Economics) • FMCG, Telecom & Automotive Specialist</p>
+                        </div>
+                        <button onclick="copyExecutivePitch()" class="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow transition flex items-center space-x-2">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy Interview Pitch (EN)</span>
+                        </button>
+                    </div>
+                    <p id="executive-pitch-text" class="text-sm text-slate-200 leading-relaxed bg-white/5 p-4 rounded-xl border border-white/10">
+                        "Area Sales Manager with more than 15 years of experience in Sales, Marketing, and Distribution Management across FMCG, Telecom, and Automotive sectors. Proven track record of driving sales growth, improving profitability, expanding market coverage, and achieving business targets. Armed with an MBA and strong leadership, negotiation, and strategic planning skills to develop high-performing teams and sustainable business growth."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Core Strengths & Education -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm md:col-span-2 space-y-3">
+                    <h3 class="font-bold text-slate-900 flex items-center text-base">
+                        <i class="fa-solid fa-star text-amber-500 mr-2"></i>Core Competencies (အဓိက ကျွမ်းကျင်မှုများ)
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-primary-50 text-primary-700 border border-primary-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Sales & Strategic Planning</span>
+                        <span class="bg-primary-50 text-primary-700 border border-primary-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Distribution & Dealer Management</span>
+                        <span class="bg-primary-50 text-primary-700 border border-primary-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Key Account & Corporate Sales</span>
+                        <span class="bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Team Leadership & Coaching</span>
+                        <span class="bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1.5 rounded-lg text-xs font-semibold">High-Value Negotiation & Closure</span>
+                        <span class="bg-purple-50 text-purple-700 border border-purple-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Budgeting, Forecasting & KPIs</span>
+                        <span class="bg-amber-50 text-amber-700 border border-amber-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Market Intelligence & Brand Visibility</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <h3 class="font-bold text-slate-900 flex items-center text-base">
+                        <i class="fa-solid fa-graduation-cap text-primary-600 mr-2"></i>Education (ပညာအရည်အချင်း)
+                    </h3>
+                    <div class="space-y-2.5 text-sm">
+                        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="font-bold text-slate-900">Master of Business Administration (MBA)</div>
+                            <div class="text-xs text-slate-500">Graduated: May 2022</div>
+                        </div>
+                        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="font-bold text-slate-900">Bachelor of Economics - B.A (Eco)</div>
+                            <div class="text-xs text-slate-500">Graduated: October 2004</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Timeline -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <h3 class="font-bold text-lg text-slate-900 border-b border-slate-100 pb-3">
+                    <i class="fa-solid fa-briefcase text-primary-600 mr-2"></i>လုပ်ငန်းအတွေ့အကြုံ မှတ်တမ်း (Career Progression Timeline)
+                </h3>
+
+                <div class="relative border-l-2 border-primary-200 ml-3 space-y-8">
+                    <!-- Role 1 -->
+                    <div class="relative pl-6">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary-600 ring-4 ring-primary-100"></span>
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <h4 class="font-bold text-base text-slate-900">Area Sales Manager — Myanmar Motor Corporation Public Co., Ltd</h4>
+                            <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-md">Jan 2026 – Present</span>
+                        </div>
+                        <p class="text-xs text-primary-600 font-medium mt-0.5">Automotive & Corporate B2B Sales Leadership</p>
+                        <ul class="mt-2 text-sm text-slate-600 list-disc pl-5 space-y-1">
+                            <li>နှစ်စဉ်/လစဉ် Sales Target များချမှတ်ခြင်း၊ ဈေးကွက်အလားအလာနှင့်အညီ Sales Strategy များ ရေးဆွဲအကောင်အထည်ဖော်ခြင်း။</li>
+                            <li>Key Customers, Dealers, Corporate Accounts များနှင့် ရေရှည်ခိုင်မာသော ဆက်ဆံရေးတည်ဆောက်ပြီး Deal ကြီးများ ညှိနှိုင်းပိတ်သိမ်းခြင်း (Negotiation & Closure)။</li>
+                            <li>Sales Pipeline, Forecast နှင့် KPI များကို စောင့်ကြည့်စစ်ဆေးပြီး Management ထံ Report နှင့် Budget များ တင်ပြခြင်း။</li>
+                        </ul>
+                    </div>
+
+                    <!-- Role 2 -->
+                    <div class="relative pl-6">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary-500"></span>
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <h4 class="font-bold text-base text-slate-900">Area Sales Manager — Myanmar Carlsberg Company</h4>
+                            <span class="text-xs font-semibold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">Oct 2014 – Oct 2025 (11 Years)</span>
+                        </div>
+                        <p class="text-xs text-primary-600 font-medium mt-0.5">Multinational FMCG Territory, Distributor & Budget Management</p>
+                        <ul class="mt-2 text-sm text-slate-600 list-disc pl-5 space-y-1">
+                            <li>၁၁ နှစ်တာကာလအတွင်း Area Sales Forecast, Volume Target နှင့် Market Share တိုးတက်စေရန် အဖွဲ့အစည်းကို ဦးဆောင်စီမံခြင်း။</li>
+                            <li>Area Sales Budget ကို အကျိုးရှိထိရောက်စွာ သုံးစွဲခြင်း (Optimize spending) နှင့် အကြွေးကောက်ခံမှု (Collection) အချိန်မီပြီးစီးစေရန် ထိန်းကျောင်းခြင်း။</li>
+                            <li>Distributor/Dealer ကွန်ရက်များ စီမံခန့်ခွဲခြင်း၊ ဆိုင်များတွင် Brand Visibility ကောင်းမွန်စေရန်နှင့် ပြိုင်ဘက်များ၏ လှုပ်ရှားမှုကို ခြေရာခံသုံးသပ်ခြင်း။</li>
+                        </ul>
+                    </div>
+
+                    <!-- Role 3 -->
+                    <div class="relative pl-6">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-slate-400"></span>
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <h4 class="font-bold text-base text-slate-900">Territory Executive — Ooredoo Myanmar</h4>
+                            <span class="text-xs font-semibold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md">Mar 2014 – Oct 2014</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium mt-0.5">Telecom Territory Expansion & Customer Acquisition</p>
+                        <p class="mt-1 text-sm text-slate-600">သတ်မှတ်နယ်မြေအတွင်း Customer အသစ်များ ရရှိရေး၊ Revenue တိုးတက်ရေးနှင့် Marketing Campaign များ အောင်မြင်စွာ ပူးပေါင်းဆောင်ရွက်ခြင်း။</p>
+                    </div>
+
+                    <!-- Role 4 -->
+                    <div class="relative pl-6">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-slate-400"></span>
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <h4 class="font-bold text-base text-slate-900">Senior Sales Supervisor — Premium Distribution Co., Ltd (Food Service)</h4>
+                            <span class="text-xs font-semibold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md">Mar 2013 – Feb 2014</span>
+                        </div>
+                        <p class="mt-1 text-sm text-slate-600">Food Service ကဏ္ဍတွင် Trade/Customer Development, SKU တိုးချဲ့ရောင်းချခြင်း၊ Inventory ထိန်းချုပ်ခြင်းနှင့် Trade Receivables ကောက်ခံခြင်း။</p>
+                    </div>
+
+                    <!-- Role 5 & 6 -->
+                    <div class="relative pl-6">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-slate-300"></span>
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <h4 class="font-bold text-base text-slate-900">Senior Business Representative & Sales Rep — Myanmar Brewery Ltd (Myanmar Beer) & Dagon Brewery</h4>
+                            <span class="text-xs font-semibold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md">Feb 2006 – Dec 2012 (7 Years)</span>
+                        </div>
+                        <p class="mt-1 text-sm text-slate-600">အခြေခံ Field Sales မှစတင်၍ Route Planning (DOV/NOV), DVAQP, POSM/Merchandising, FIFO Stock Control, Direct Sales (Kirin) နှင့် On-premise Activation များကို ကျွမ်းကျင်ပိုင်နိုင်စွာ လုပ်ကိုင်ခဲ့ခြင်း။</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-5 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>Area Sales Manager (ASM) Career & Daily Growth Hub • နေ့စဉ်တိုးတက်မှုမှသည် အောင်မြင်သော ခေါင်းဆောင်ကောင်းဆီသို့</p>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- AI MENTOR MODAL                            -->
+    <!-- ========================================== -->
+    <div id="ai-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-primary-600 to-indigo-600 px-6 py-4 flex justify-between items-center text-white">
+                <div class="flex items-center space-x-2.5">
+                    <i class="fa-solid fa-user-tie text-xl"></i>
+                    <div>
+                        <h3 class="font-bold text-base">AI Sales Director Mentor</h3>
+                        <p class="text-xs text-primary-100">အရောင်းပြဿနာများ၊ အင်တာဗျူးနှင့် English စာများကို မေးမြန်းနိုင်ပါသည်</p>
+                    </div>
+                </div>
+                <button onclick="closeAiCoachModal()" class="text-white/80 hover:text-white p-1.5 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Chat History) -->
+            <div id="ai-chat-box" class="p-5 overflow-y-auto flex-grow space-y-4 bg-slate-50 text-sm">
+                <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-700">
+                    <p class="font-semibold text-primary-600 mb-1">မင်္ဂလာပါ Area Sales Manager!</p>
+                    <p>ကျွန်တော်က သင့်ရဲ့ AI Sales Mentor ပါ။ အောက်ပါအကြောင်းအရာတွေကို မေးမြန်းနိုင်ပါတယ်-</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-xs text-slate-600">
+                        <li>"Distributor ဘက်က Stock မတင်ချင်တာကို ဘယ်လိုညှိနှိုင်းရမလဲ?"</li>
+                        <li>"အင်တာဗျူးမှာ ကျွန်တော့်အားနည်းချက်ကို မေးရင် ဘယ်လိုဖြေရမလဲ?"</li>
+                        <li>"Sales Rep တွေကို မနက်ပိုင်း Briefing မှာ ပြောဖို့ စကားလုံးလေးတွေ ပေးပါ"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal Footer (Input) -->
+            <div class="p-4 bg-white border-t border-slate-200 flex gap-2">
+                <input type="text" id="ai-prompt-input" onkeypress="if(event.key === 'Enter') askAiMentor()" placeholder="မေးခွန်းရိုက်ထည့်ပါ..." class="flex-grow px-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                <button onclick="askAiMentor()" id="ai-send-btn" class="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition flex items-center space-x-1.5">
+                    <span>ပို့မည်</span>
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm flex items-center space-x-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-msg">Copied!</span>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT LOGIC & DATA                    -->
+    <!-- ========================================== -->
+    <script>
+        // --- 1. INITIAL DATA ---
+        const defaultTasks = [
+            // Morning
+            { id: 'm1', category: 'morning', text: 'မနေ့က အရောင်းစာရင်း၊ Sales Pipeline နှင့် Forecast များ စစ်ဆေးခြင်း', completed: false },
+            { id: 'm2', category: 'morning', text: 'Sales Team နှင့် မနက်ပိုင်း Morning Briefing (၁၅ မိနစ်) ပြုလုပ်ပြီး Target ချမှတ်ခြင်း', completed: false },
+            { id: 'm3', category: 'morning', text: 'Dealer / Distributor များ၏ Stock လက်ကျန်နှင့် Delivery အခြေအနေ စစ်ဆေးခြင်း', completed: false },
+            { id: 'm4', category: 'morning', text: 'ယနေ့တွေ့ဆုံမည့် Key Accounts / Corporate Clients များအတွက် Proposal ပြင်ဆင်ခြင်း', completed: false },
+            // Field
+            { id: 'f1', category: 'field', text: 'Sales Team နှင့်အတူ ကွင်းဆင်းပြီး အရောင်းစွမ်းရည် မြှင့်တင်ပေးခြင်း (Coaching & Joint Visit)', completed: false },
+            { id: 'f2', category: 'field', text: 'Key Customers, Dealers နှင့် Business Partners များထံ သွားရောက်တွေ့ဆုံ ညှိနှိုင်းခြင်း', completed: false },
+            { id: 'f3', category: 'field', text: 'ဈေးကွက်လိုအပ်ချက် (Customer Needs) နှင့် ပြိုင်ဘက်များ၏ လှုပ်ရှားမှု (Competitor Activities) စုံစမ်းခြင်း', completed: false },
+            { id: 'f4', category: 'field', text: 'ဆိုင်ခင်းကျင်းမှု (Brand Visibility) နှင့် Customer Service စံနှုန်းများ ပြည့်မီမှု စစ်ဆေးခြင်း', completed: false },
+            // Evening
+            { id: 'e1', category: 'evening', text: 'Management ထံ တင်ပြရန် Daily Sales Report, Pipeline နှင့် Market Update ပြင်ဆင်ခြင်း', completed: false },
+            { id: 'e2', category: 'evening', text: 'Area Sales Budget ကုန်ကျစရိတ်နှင့် ငွေကောက်ခံမှု (Receivables Collection) စစ်ဆေးခြင်း', completed: false },
+            { id: 'e3', category: 'evening', text: 'Executive English ဝေါဟာရ နှင့် အင်တာဗျူး မေးခွန်း ၁ ခု လေ့လာပြင်ဆင်ခြင်း', completed: false }
+        ];
+
+        const englishMaterials = [
+            {
+                type: 'vocab',
+                title: 'Sales Pipeline & Conversion Rate',
+                mmTitle: 'အရောင်းအလားအလာ အဆင့်ဆင့် နှင့် အရောင်းဖြစ်မြောက်မှုနှုန်း',
+                content: 'Automotive နှင့် Corporate B2B Sales တွင် အလားအလာရှိသော ဝယ်ယူသူ (Leads) မှစ၍ စာချုပ်ချုပ်ဆို ပိတ်သိမ်းနိုင်သည်အထိ အဆင့်ဆင့်စီမံခန့်ခွဲခြင်း။',
+                example: '"We have a healthy sales pipeline this quarter, and by improving our negotiation process, we increased our deal closure rate by 15%."'
+            },
+            {
+                type: 'vocab',
+                title: 'Primary vs. Secondary Sales & Stock Rotation',
+                mmTitle: 'တိုက်ရိုက်အရောင်း၊ တစ်ဆင့်ခံအရောင်း နှင့် ကုန်ပစ္စည်းလည်ပတ်မှု',
+                content: 'FMCG နှင့် Distribution Management တွင် Distributor ထံပို့သော Primary Sales နှင့် ဈေးကွက်ထဲရောက်သော Secondary Sales မျှတအောင် ထိန်းညှိခြင်း။',
+                example: '"Our primary sales look strong, and we are accelerating secondary sales through dealer incentives to maintain healthy stock rotation."'
+            },
+            {
+                type: 'vocab',
+                title: 'Area Budget Optimization & ROI',
+                mmTitle: 'နယ်မြေအရောင်းစရိတ် အကျိုးရှိစွာ သုံးစွဲခြင်းနှင့် ပြန်ရချက်',
+                content: 'Marketing နှင့် Sales Activity များအတွက် သုံးစွဲသော Budget ကို အလေအလွင့်နည်းပြီး အရောင်းအများဆုံး ပြန်ရအောင် စီမံခြင်း။',
+                example: '"By tracking competitor activities and prioritizing high-ROI promotions, we kept our area sales budget 8% under forecast while exceeding volume targets."'
+            },
+            {
+                type: 'meeting',
+                title: 'Negotiating Key Deals with Corporate / Dealers',
+                mmTitle: 'Corporate Client များ၊ Dealer များနှင့် အရောင်းညှိနှိုင်း စကားပြောဆိုပုံ',
+                content: 'ဈေးလျှော့ပေးခြင်းထက် ရေရှည်အကျိုးအမြတ် (Win-Win Partnership) နှင့် After-sales Service ကို အသားပေးပြောဆိုပါ။',
+                example: '"Beyond competitive pricing, partnering with us guarantees priority stock allocation, dedicated after-sales support, and joint marketing campaigns to grow your profitability."'
+            },
+            {
+                type: 'meeting',
+                title: 'Presenting Market Updates & Corrective Actions',
+                mmTitle: 'Management အစည်းအဝေးတွင် ဈေးကွက်အခြေအနေနှင့် ဖြေရှင်းချက် တင်ပြပုံ',
+                content: 'အတွေ့အကြုံရင့် Senior ASM တစ်ယောက်အနေဖြင့် ပြဿနာကိုတင်ပြရုံသာမက Strategic Action Plan ပါ တင်ပြပါ။',
+                example: '"Due to shifting market trends, corporate demand has slowed slightly. As a corrective action, we are expanding into SME fleet accounts and re-aligning our team’s weekly KPIs."'
+            },
+            {
+                type: 'email',
+                title: 'Executive Monthly Sales & Forecast Report Email',
+                mmTitle: 'အထက်လူကြီးများထံ တင်ပြရမည့် လစဉ်အရောင်းနှင့် ခန့်မှန်းချက် အီးမေးလ် နမူနာ',
+                content: 'Subject: Monthly Sales Performance, Pipeline & Forecast – [Area Name]',
+                example: '"Dear Management Team,\n\nPlease find attached the monthly performance review and next month’s forecast for [Area Name]:\n- Target Achievement: 104% (Driven by 3 new corporate deals and strong dealer re-orders)\n- Receivables & Collection: 98% collected on time.\n- Strategic Focus Next Month: Expanding market coverage in industrial zones and coaching new sales executives.\n\nBest regards,\n[Your Name]\nArea Sales Manager"'
+            }
+        ];
+
+        const interviewQAs = [
+            {
+                qEn: "1. Walk me through your 15+ years of career progression from FMCG to Automotive.",
+                qMm: "FMCG ကဏ္ဍကနေ Automotive ကဏ္ဍအထိ ၁၅ နှစ်ကျော် လုပ်ငန်းအတွေ့အကြုံ တိုးတက်လာပုံကို ရှင်းပြပေးပါ။",
+                aEn: "I started my career on the ground floor as a Sales Representative in the brewery industry, mastering route planning, merchandising, and distributor operations. Over 11 years at Myanmar Carlsberg, I grew into an Area Sales Manager, managing large territories, area budgets, and high-performing teams. Combining that strong distribution foundation with my MBA, I transitioned to Myanmar Motor Corporation in 2026, where I now lead corporate B2B negotiations, dealer management, and strategic sales pipelines. This cross-industry background makes me adaptable to both high-volume distribution and high-value relationship selling.",
+                aMm: "ကျွန်တော်ဟာ ဘီယာလုပ်ငန်းကဏ္ဍမှာ အခြေခံ Sales Representative အဖြစ် စတင်ခဲ့ပြီး Route Planning, Merchandising နဲ့ Distributor လုပ်ငန်းစဉ်တွေကို ကျွမ်းကျင်အောင် လေ့လာခဲ့ပါတယ်။ Myanmar Carlsberg မှာ ၁၁ နှစ်ကြာ Area Sales Manager အဖြစ် နယ်မြေကြီးတွေ၊ Area Budget တွေနဲ့ Sales Team တွေကို အောင်မြင်စွာ အုပ်ချုပ်နိုင်ခဲ့ပါတယ်။ အဲဒီအတွေ့အကြုံတွေနဲ့ MBA ပညာရပ်ကို ပေါင်းစပ်ပြီး ၂၀၂၆ မှာ Myanmar Motor Corporation ကို ကူးပြောင်းခဲ့ကာ Corporate B2B ညှိနှိုင်းမှုတွေ၊ Dealer စီမံခန့်ခွဲမှုနဲ့ Sales Pipeline တွေကို ဦးဆောင်နေပါတယ်။ မတူညီတဲ့ ကဏ္ဍနှစ်ခုလုံးမှာ အတွေ့အကြုံရှိတာက ကျွန်တော့်ရဲ့ အဓိက အားသာချက်ပါ။"
+            },
+            {
+                qEn: "2. How does managing sales in Automotive/B2B differ from FMCG, and how do you adapt?",
+                qMm: "Automotive/B2B အရောင်းစီမံခန့်ခွဲမှုက FMCG နဲ့ ဘာတွေကွာခြားပြီး ဘယ်လိုလိုက်လျောညီထွေ လုပ်ဆောင်သလဲ?",
+                aEn: "FMCG is driven by speed, numeric distribution, and daily stock rotation, whereas Automotive and B2B rely on longer sales cycles, consultative selling, pipeline management, and high-stakes negotiation. I adapt by applying my FMCG discipline—such as strict KPI tracking and territory coverage—to systematically build B2B pipelines, while leveraging executive relationship-building and tailored proposals to close corporate deals.",
+                aMm: "FMCG က အမြန်နှုန်း၊ ဆိုင်ဖြန့်ကြက်မှုနဲ့ နေ့စဉ်ပစ္စည်းလည်ပတ်မှုကို အဓိကထားပြီး Automotive/B2B ကတော့ အချိန်ယူညှိနှိုင်းရတဲ့ Sales Cycle၊ Pipeline စီမံခန့်ခွဲမှုနဲ့ အဆင့်မြင့် ညှိနှိုင်းရောင်းချမှုအပေါ် မူတည်ပါတယ်။ ကျွန်တော်က FMCG ကရခဲ့တဲ့ စည်းကမ်းစနစ်ကျမှု (KPI tracking နဲ့ Territory coverage) ကို B2B Pipeline တည်ဆောက်ရာမှာ အသုံးချပြီး Corporate Deal တွေ ပိတ်သိမ်းနိုင်ဖို့ အဆင့်မြင့် ဆက်ဆံရေးတည်ဆောက်မှုနဲ့ ပေါင်းစပ်လုပ်ဆောင်ပါတယ်။"
+            },
+            {
+                qEn: "3. How do you manage Area Sales Budgets and ensure profitability?",
+                qMm: "Area Sales Budget ကို ဘယ်လိုစီမံခန့်ခွဲပြီး ကုမ္ပဏီအမြတ်အစွန်း တိုးတက်အောင် လုပ်ဆောင်သလဲ?",
+                aEn: "With my background in Economics and an MBA, I treat my territory like a business unit. I closely monitor trade spending, A&P requisitions, and promotional costs against actual sales volume. Instead of broad discounting, I allocate budget toward high-ROI activities, enforce strict credit and receivables collection to protect cash flow, and focus the team on higher-margin product lines.",
+                aMm: "ကျွန်တော့်ရဲ့ Economics နဲ့ MBA ပညာအခြေခံအရ မိမိနယ်မြေကို စီးပွားရေးလုပ်ငန်းတစ်ခုလို သဘောထားပြီး စီမံပါတယ်။ Trade Spending နဲ့ A&P ကုန်ကျစရိတ်တွေကို အမှန်တကယ် ရောင်းရငွေနဲ့ နှိုင်းယှဉ်စစ်ဆေးပါတယ်။ အလကား ဈေးလျှော့ပေးတာမျိုးထက် ပြန်ရချက် (ROI) ကောင်းမယ့် ပရိုမိုးရှင်းတွေမှာပဲ သုံးစွဲပြီး ငွေသားလည်ပတ်မှု ကောင်းစေဖို့ အကြွေးကောက်ခံမှု (Receivables) ကို တင်းကျပ်စွာ ထိန်းကျောင်းပါတယ်။"
+            },
+            {
+                qEn: "4. How do you handle underperforming team members and develop future leaders?",
+                qMm: "စွမ်းဆောင်ရည်ကျနေတဲ့ အဖွဲ့သားတွေကို ဘယ်လိုကိုင်တွယ်ပြီး အနာဂတ်ခေါင်းဆောင်တွေ ဘယ်လိုမွေးထုတ်ပေးသလဲ?",
+                aEn: "Having progressed from a Sales Rep to ASM myself, I understand field challenges firsthand. When someone underperforms, I review their activity metrics first, then conduct joint field visits to coach them on customer objection handling and closing techniques. For high-potential reps, I delegate key account responsibilities and involve them in forecasting so they are ready for supervisory roles.",
+                aMm: "ကျွန်တော်ကိုယ်တိုင် အခြေခံ Sales Rep ဘဝကနေ ASM ဖြစ်လာသူမို့ ကွင်းဆင်းအခက်အခဲတွေကို ကောင်းကောင်းနားလည်ပါတယ်။ စွမ်းဆောင်ရည်ကျနေသူကို စာရင်းဇယားအရင်စစ်ပြီး ကွင်းဆင်းအတူလိုက်ကာ ဖောက်သည်တွေရဲ့ ငြင်းဆိုမှုကို ဘယ်လိုပြန်ရှင်းပြရမလဲဆိုတာ လက်တွေ့သင်ကြားပေးပါတယ်။ အလားအလာရှိသူတွေကိုတော့ Key Account တာဝန်တွေ ခွဲဝေပေးပြီး Supervisor ရာထူးအတွက် ကြိုတင်လေ့ကျင့်ပေးပါတယ်။"
+            },
+            {
+                qEn: "5. What is your 30-60-90 day strategic plan when taking over a new ASM role?",
+                qMm: "ASM ရာထူးအသစ်တစ်ခုကို တာဝန်ယူရရင် ပထမ ရက် ၃၀-၆၀-၉၀ အတွင်း ဘယ်လိုဗျူဟာနဲ့ သွားမလဲ?",
+                aEn: "In the first 30 days, I audit the territory—analyzing historical sales data, meeting every team member, and visiting key dealers and corporate accounts to understand their pain points. By day 60, I refine route plans, streamline the sales pipeline, and address any stock or receivables bottlenecks. By day 90, I execute targeted growth campaigns to capture market share and consistently exceed monthly targets.",
+                aMm: "ပထမ ရက် ၃၀ မှာ အရောင်းဒေတာဟောင်းတွေကို သုံးသပ်မယ်၊ အဖွဲ့သားတိုင်းနဲ့ တွေ့ဆုံပြီး အဓိက Dealer နဲ့ Corporate Client တွေရဲ့ လိုအပ်ချက်ကို နားထောင်ပါမယ်။ ရက် ၆၀ မှာ Route Plan နဲ့ Sales Pipeline တွေကို ပြန်လည်ပြင်ဆင်ပြီး Stock နဲ့ အကြွေးပိုင်း အခက်အခဲတွေကို ရှင်းလင်းပါမယ်။ ရက် ၉၀ ပြည့်ချိန်မှာတော့ ဈေးကွက်ဝေစု တိုးချဲ့နိုင်မယ့် Growth Campaign တွေနဲ့ လစဉ် Target ကျော်လွန်အောင် အရှိန်မြှင့် လုပ်ဆောင်ပါမယ်။"
+            }
+        ];
+
+        // --- 2. STATE MANAGEMENT ---
+        let tasks = JSON.parse(localStorage.getItem('asm_daily_tasks')) || defaultTasks;
+
+        // --- 3. INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set Current Date
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+
+            renderDailyTasks();
+            renderEnglishMaterials('all');
+            renderInterviewQAs();
+        });
+
+        // --- 4. TAB NAVIGATION ---
+        function switchTab(tabId) {
+            // Hide all sections
+            ['daily', 'english', 'interview-prep', 'interview-qa', 'profile'].forEach(id => {
+                document.getElementById(`section-${id}`).classList.add('hidden');
+                const tabBtn = document.getElementById(`tab-${id}`);
+                tabBtn.classList.remove('tab-active');
+                tabBtn.classList.add('text-slate-500');
+            });
+
+            // Show selected section
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-slate-500');
+        }
+
+        // --- 5. DAILY TASKS FUNCTIONS ---
+        function renderDailyTasks() {
+            const container = document.getElementById('daily-tasks-container');
+            const categories = [
+                { key: 'morning', title: 'မနက်ပိုင်း (Morning Routine)', icon: 'fa-sun', color: 'text-amber-500', bg: 'bg-amber-50' },
+                { key: 'field', title: 'ကွင်းဆင်းချိန် (Market & Field)', icon: 'fa-motorcycle', color: 'text-primary-600', bg: 'bg-primary-50' },
+                { key: 'evening', title: 'ညနေပိုင်း (Review & Growth)', icon: 'fa-moon', color: 'text-indigo-600', bg: 'bg-indigo-50' }
+            ];
+
+            container.innerHTML = categories.map(cat => {
+                const catTasks = tasks.filter(t => t.category === cat.key);
+                return `
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col">
+                        <div class="flex items-center space-x-2.5 pb-3 mb-3 border-b border-slate-100">
+                            <div class="${cat.bg} ${cat.color} p-2 rounded-lg">
+                                <i class="fa-solid ${cat.icon}"></i>
+                            </div>
+                            <h3 class="font-bold text-sm text-slate-900">${cat.title}</h3>
+                        </div>
+                        <div class="space-y-2.5 flex-grow">
+                            ${catTasks.length === 0 ? '<p class="text-xs text-slate-400 italic">တာဝန်များ မရှိသေးပါ</p>' : ''}
+                            ${catTasks.map(task => `
+                                <div class="flex items-start justify-between group p-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition">
+                                    <label class="flex items-start space-x-3 cursor-pointer flex-grow">
+                                        <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask('${task.id}')" class="mt-1 h-4 w-4 text-primary-600 rounded border-slate-300 focus:ring-primary-500 cursor-pointer">
+                                        <span class="text-sm leading-snug ${task.completed ? 'line-through text-slate-400' : 'text-slate-700'}">${task.text}</span>
+                                    </label>
+                                    ${task.id.startsWith('custom_') ? `
+                                        <button onclick="deleteTask('${task.id}')" class="text-slate-300 hover:text-red-500 ml-2 opacity-0 group-hover:opacity-100 transition">
+                                            <i class="fa-solid fa-trash-can text-xs"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateProgress();
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+            saveTasks();
+            renderDailyTasks();
+        }
+
+        function addCustomTask() {
+            const input = document.getElementById('new-task-input');
+            const category = document.getElementById('new-task-category').value;
+            const text = input.value.trim();
+
+            if (!text) {
+                showToast('ကျေးဇူးပြု၍ လုပ်ငန်းတာဝန် ရေးထည့်ပါ');
+                return;
+            }
+
+            tasks.push({
+                id: 'custom_' + Date.now(),
+                category: category,
+                text: text,
+                completed: false
+            });
+
+            input.value = '';
+            saveTasks();
+            renderDailyTasks();
+            showToast('တာဝန်အသစ် ထည့်သွင်းပြီးပါပြီ');
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderDailyTasks();
+        }
+
+        function resetChecklist() {
+            tasks = tasks.map(t => ({ ...t, completed: false }));
+            saveTasks();
+            renderDailyTasks();
+            showToast('Checklist အားလုံးကို ပြန်လည်စတင်လိုက်ပါပြီ');
+        }
+
+        function saveTasks() {
+            localStorage.setItem('asm_daily_tasks', JSON.stringify(tasks));
+        }
+
+        function updateProgress() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+            document.getElementById('progress-text').textContent = `${percentage}% (${completed}/${total})`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // --- 6. ENGLISH MATERIALS FUNCTIONS ---
+        function renderEnglishMaterials(filter) {
+            const grid = document.getElementById('english-content-grid');
+            const filtered = filter === 'all' ? englishMaterials : englishMaterials.filter(m => m.type === filter);
+
+            const badgeColors = {
+                vocab: 'bg-blue-100 text-blue-700',
+                meeting: 'bg-emerald-100 text-emerald-700',
+                email: 'bg-purple-100 text-purple-700'
+            };
+            const badgeNames = {
+                vocab: 'Sales Vocabulary',
+                meeting: 'Meeting Phrase',
+                email: 'Email / Report'
+            };
+
+            grid.innerHTML = filtered.map((item, idx) => `
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-md ${badgeColors[item.type]}">${badgeNames[item.type]}</span>
+                            <button onclick="copyText(\`${item.example.replace(/"/g, '&quot;').replace(/\n/g, '\\n')}\`)" class="text-slate-400 hover:text-primary-600 text-xs flex items-center space-x-1 transition" title="Copy Example">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 pt-1">${item.title}</h3>
+                        <p class="text-xs font-medium text-primary-600">${item.mmTitle}</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">${item.content}</p>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+                        <p class="text-xs font-semibold text-slate-400 uppercase mb-1">Example Usage:</p>
+                        <p class="text-sm text-slate-800 font-medium whitespace-pre-line">${item.example}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterEnglish(filter) {
+            document.querySelectorAll('.eng-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.remove('bg-slate-100', 'text-slate-600');
+                    btn.classList.add('bg-primary-600', 'text-white');
+                } else {
+                    btn.classList.add('bg-slate-100', 'text-slate-600');
+                    btn.classList.remove('bg-primary-600', 'text-white');
+                }
+            });
+            renderEnglishMaterials(filter);
+        }
+
+        // --- 7. INTERVIEW Q&A FUNCTIONS ---
+        function renderInterviewQAs() {
+            const container = document.getElementById('qa-container');
+            container.innerHTML = interviewQAs.map((item, index) => `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button onclick="toggleQA(${index})" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                        <div class="pr-4">
+                            <h3 class="font-bold text-sm sm:text-base text-slate-900">${item.qEn}</h3>
+                            <p class="text-xs sm:text-sm text-primary-600 mt-0.5">${item.qMm}</p>
+                        </div>
+                        <i id="qa-icon-${index}" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div id="qa-body-${index}" class="hidden px-6 pb-5 pt-2 border-t border-slate-100 bg-slate-50/50 space-y-3">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                            <div class="flex justify-between items-center mb-1.5">
+                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Sample Answer (English)</span>
+                                <button onclick="copyText(\`${item.aEn.replace(/"/g, '&quot;')}\`)" class="text-xs text-slate-400 hover:text-primary-600"><i class="fa-regular fa-copy mr-1"></i>Copy</button>
+                            </div>
+                            <p class="text-sm text-slate-800 leading-relaxed">${item.aEn}</p>
+                        </div>
+                        <div class="bg-primary-50/60 p-4 rounded-xl border border-primary-100">
+                            <span class="text-xs font-bold text-primary-700 block mb-1">မြန်မာဘာသာ ဆိုလိုရင်း အနှစ်ချုပ်-</span>
+                            <p class="text-sm text-slate-700 leading-relaxed">${item.aMm}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleQA(index) {
+            const body = document.getElementById(`qa-body-${index}`);
+            const icon = document.getElementById(`qa-icon-${index}`);
+            body.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function toggleAllAnswers(expand) {
+            interviewQAs.forEach((_, index) => {
+                const body = document.getElementById(`qa-body-${index}`);
+                const icon = document.getElementById(`qa-icon-${index}`);
+                if (expand) {
+                    body.classList.remove('hidden');
+                    icon.classList.add('rotate-180');
+                } else {
+                    body.classList.add('hidden');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        }
+
+        // --- 8. GEMINI API INTEGRATION (AI MENTOR & TRANSLATOR) ---
+        const apiKey = ""; // Provided automatically in runtime
+
+        async function callGeminiAPI(prompt, systemInstruction) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            let delay = 1000;
+            for (let i = 0; i < 4; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error('API Error');
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "တောင်းပန်ပါတယ်၊ အဖြေပြန်လည်ထုတ်ပေးနိုင်ခြင်း မရှိပါ။";
+                } catch (err) {
+                    if (i === 3) return "အင်တာနက်ချိတ်ဆက်မှု အခက်အခဲရှိနေပါသည်။ ခဏအကြာတွင် ပြန်လည်ကြိုးစားကြည့်ပါ။";
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        async function translateToBusinessEnglish() {
+            const inputEl = document.getElementById('eng-translate-input');
+            const resultEl = document.getElementById('eng-translate-result');
+            const btnEl = document.getElementById('eng-translate-btn');
+            const text = inputEl.value.trim();
+
+            if (!text) {
+                showToast('ဘာသာပြန်လိုသော မြန်မာစာသားကို အရင်ရိုက်ထည့်ပါ');
+                return;
+            }
+
+            btnEl.disabled = true;
+            btnEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>ပြောင်းလဲနေပါသည်...</span>';
+            resultEl.classList.remove('hidden');
+            resultEl.innerHTML = '<p class="text-slate-400 text-xs">AI မှ Professional Sales English ပြောင်းလဲပေးနေပါသည်...</p>';
+
+            const sysPrompt = "You are an expert Sales Director and Business English coach. Translate the user's Burmese sales/management situation into 2 options of professional Business English (1: Spoken for Meetings, 2: Formal for Emails/Reports). Keep explanations concise in Burmese.";
+            const reply = await callGeminiAPI(text, sysPrompt);
+
+            resultEl.innerHTML = `<div class="prose prose-sm max-w-none whitespace-pre-line text-slate-800">${reply}</div>`;
+            btnEl.disabled = false;
+            btnEl.innerHTML = '<i class="fa-solid fa-sparkles"></i><span>Professional English ပြောင်းမည်</span>';
+        }
+
+        function openAiCoachModal() {
+            document.getElementById('ai-modal').classList.remove('hidden');
+        }
+
+        function closeAiCoachModal() {
+            document.getElementById('ai-modal').classList.add('hidden');
+        }
+
+        async function askAiMentor() {
+            const input = document.getElementById('ai-prompt-input');
+            const chatBox = document.getElementById('ai-chat-box');
+            const sendBtn = document.getElementById('ai-send-btn');
+            const question = input.value.trim();
+
+            if (!question) return;
+
+            // Append User Message
+            chatBox.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="bg-primary-600 text-white p-3.5 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm">
+                        ${question}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Loading indicator
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `
+                <div id="${loadingId}" class="flex justify-start">
+                    <div class="bg-white p-3.5 rounded-2xl rounded-tl-none border border-slate-200 text-slate-400 text-xs flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-notch fa-spin text-primary-600"></i>
+                        <span>Sales Director AI မှ စဉ်းစားနေပါသည်...</span>
+                    </div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            sendBtn.disabled = true;
+
+            const sysPrompt = "You are a highly experienced Regional Sales Director mentoring an Area Sales Manager (ASM) in Myanmar. Answer practical questions about sales operations, distributor management, team motivation, Sales English, and ASM job interviews. Respond primarily in clear, encouraging Burmese, including relevant English sales terms where helpful.";
+            const answer = await callGeminiAPI(question, sysPrompt);
+
+            document.getElementById(loadingId).remove();
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-slate-800 max-w-[90%] shadow-sm whitespace-pre-line leading-relaxed">
+                        ${answer}
+                    </div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            sendBtn.disabled = false;
+        }
+
+        // --- 9. UTILITY FUNCTIONS ---
+        function copyExecutivePitch() {
+            const pitch = document.getElementById('executive-pitch-text').textContent.trim().replace(/^"|"$/g, '');
+            copyText(pitch);
+        }
+
+        function copyText(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('စာသားကို Copy ကူးယူပြီးပါပြီ');
+            } catch (err) {
+                showToast('Copy ကူးယူ၍ မရပါ');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
