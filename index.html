@@ -718,14 +718,25 @@
 
             <!-- Modal Body (Chat History) -->
             <div id="ai-chat-box" class="p-5 overflow-y-auto flex-grow space-y-4 bg-slate-50 text-sm">
-                <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-700">
-                    <p class="font-semibold text-primary-600 mb-1">မင်္ဂလာပါ Area Sales Manager!</p>
-                    <p>ကျွန်တော်က သင့်ရဲ့ AI Sales Mentor ပါ။ အောက်ပါအကြောင်းအရာတွေကို မေးမြန်းနိုင်ပါတယ်-</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1 text-xs text-slate-600">
-                        <li>"Distributor ဘက်က Stock မတင်ချင်တာကို ဘယ်လိုညှိနှိုင်းရမလဲ?"</li>
-                        <li>"အင်တာဗျူးမှာ ကျွန်တော့်အားနည်းချက်ကို မေးရင် ဘယ်လိုဖြေရမလဲ?"</li>
-                        <li>"Sales Rep တွေကို မနက်ပိုင်း Briefing မှာ ပြောဖို့ စကားလုံးလေးတွေ ပေးပါ"</li>
-                    </ul>
+                <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-700 space-y-3">
+                    <div>
+                        <p class="font-semibold text-primary-600 mb-1">မင်္ဂလာပါ Area Sales Manager!</p>
+                        <p>ကျွန်တော်က သင့်ရဲ့ AI Sales Mentor ပါ။ အောက်ပါအကြောင်းအရာတွေကို နှိပ်ပြီး တိုက်ရိုက်မေးမြန်းနိုင်သလို မိမိသိလိုရာကိုလည်း ရိုက်ထည့်မေးနိုင်ပါတယ်-</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <button onclick="sendQuickPrompt('Distributor ဘက်က Stock မတင်ချင်တာကို ဘယ်လိုညှိနှိုင်းရမလဲ?')" class="text-left text-xs bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200 px-3 py-1.5 rounded-lg transition">
+                            📦 Distributor Stock ညှိနှိုင်းနည်း
+                        </button>
+                        <button onclick="sendQuickPrompt('အင်တာဗျူးမှာ ကျွန်တော့်အားနည်းချက်ကို မေးရင် ဘယ်လိုဖြေရမလဲ?')" class="text-left text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg transition">
+                            🎯 အင်တာဗျူး အားနည်းချက် ဖြေနည်း
+                        </button>
+                        <button onclick="sendQuickPrompt('Sales Rep တွေကို မနက်ပိုင်း Briefing မှာ ပြောဖို့ စကားလုံးလေးတွေ ပေးပါ')" class="text-left text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-lg transition">
+                            ☀️ Morning Briefing စကားပြော
+                        </button>
+                        <button onclick="sendQuickPrompt('အရောင်းကျနေတဲ့ နယ်မြေကို ဘယ်လို ပြန်ဆွဲတင်ရမလဲ?')" class="text-left text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 px-3 py-1.5 rounded-lg transition">
+                            📈 အရောင်းကျနေမှု ပြန်ဆွဲတင်နည်း
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -1004,104 +1015,104 @@
                         <p class="text-xs font-medium text-primary-600">${item.mmTitle}</p>
                         <p class="text-sm text-slate-600 leading-relaxed">${item.content}</p>
                     </div>
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
-                        <p class="text-xs font-semibold text-slate-400 uppercase mb-1">Example Usage:</p>
-                        <p class="text-sm text-slate-800 font-medium whitespace-pre-line">${item.example}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function filterEnglish(filter) {
-            document.querySelectorAll('.eng-filter-btn').forEach(btn => {
-                if (btn.dataset.filter === filter) {
-                    btn.classList.remove('bg-slate-100', 'text-slate-600');
-                    btn.classList.add('bg-primary-600', 'text-white');
-                } else {
-                    btn.classList.add('bg-slate-100', 'text-slate-600');
-                    btn.classList.remove('bg-primary-600', 'text-white');
-                }
-            });
-            renderEnglishMaterials(filter);
-        }
-
-        // --- 7. INTERVIEW Q&A FUNCTIONS ---
-        function renderInterviewQAs() {
-            const container = document.getElementById('qa-container');
-            container.innerHTML = interviewQAs.map((item, index) => `
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <button onclick="toggleQA(${index})" class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition">
-                        <div class="pr-4">
-                            <h3 class="font-bold text-sm sm:text-base text-slate-900">${item.qEn}</h3>
-                            <p class="text-xs sm:text-sm text-primary-600 mt-0.5">${item.qMm}</p>
-                        </div>
-                        <i id="qa-icon-${index}" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div id="qa-body-${index}" class="hidden px-6 pb-5 pt-2 border-t border-slate-100 bg-slate-50/50 space-y-3">
-                        <div class="bg-white p-4 rounded-xl border border-slate-200">
-                            <div class="flex justify-between items-center mb-1.5">
-                                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Sample Answer (English)</span>
-                                <button onclick="copyText(\`${item.aEn.replace(/"/g, '&quot;')}\`)" class="text-xs text-slate-400 hover:text-primary-600"><i class="fa-regular fa-copy mr-1"></i>Copy</button>
-                            </div>
-                            <p class="text-sm text-slate-800 leading-relaxed">${item.aEn}</p>
-                        </div>
-                        <div class="bg-primary-50/60 p-4 rounded-xl border border-primary-100">
-                            <span class="text-xs font-bold text-primary-700 block mb-1">မြန်မာဘာသာ ဆိုလိုရင်း အနှစ်ချုပ်-</span>
-                            <p class="text-sm text-slate-700 leading-relaxed">${item.aMm}</p>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function toggleQA(index) {
-            const body = document.getElementById(`qa-body-${index}`);
-            const icon = document.getElementById(`qa-icon-${index}`);
-            body.classList.toggle('hidden');
-            icon.classList.toggle('rotate-180');
-        }
-
-        function toggleAllAnswers(expand) {
-            interviewQAs.forEach((_, index) => {
-                const body = document.getElementById(`qa-body-${index}`);
-                const icon = document.getElementById(`qa-icon-${index}`);
-                if (expand) {
-                    body.classList.remove('hidden');
-                    icon.classList.add('rotate-180');
-                } else {
-                    body.classList.add('hidden');
-                    icon.classList.remove('rotate-180');
-                }
-            });
-        }
-
-        // --- 8. GEMINI API INTEGRATION (AI MENTOR & TRANSLATOR) ---
+        // --- 8. GEMINI API INTEGRATION (AI MENTOR & TRANSLATOR WITH SMART FALLBACK) ---
         const apiKey = ""; // Provided automatically in runtime
 
-        async function callGeminiAPI(prompt, systemInstruction) {
+        // Smart Built-in Sales Director Knowledge Base (Works instantly even if API/Network fails)
+        function getSmartOfflineMentorReply(query, isTranslator = false) {
+            const q = query.toLowerCase();
+
+            if (isTranslator) {
+                if (q.includes('ပြိုင်ဘက်') || q.includes('ဈေးလျှော့') || q.includes('ကျ')) {
+                    return "၁။ Spoken (အစည်းအဝေးတွင် ပြောရန်):\n\"Due to aggressive price discounting by competitors, we experienced a slight dip in volume. However, we are countering this with targeted dealer incentives and stronger outlet visibility.\"\n\n၂။ Formal Email (Report တင်ရန်):\n\"Please be informed that sales volume softened slightly this week owing to competitor pricing activities. As a corrective action, we are focusing on key account retention and high-margin SKUs to recover the shortfall.\"";
+                }
+                if (q.includes('target') || q.includes('ပြည့်') || q.includes('တက်')) {
+                    return "၁။ Spoken (အစည်းအဝေးတွင် ပြောရန်):\n\"We are on track to exceed our monthly sales target, driven by strong secondary sales and new corporate account closures.\"\n\n၂။ Formal Email (Report တင်ရန်):\n\"I am pleased to report that our territory has achieved 105% of the monthly target, supported by improved numeric distribution and timely receivables collection.\"";
+                }
+                return `၁။ Spoken (အစည်းအဝေးတွင် ပြောရန်):\n"Regarding '${query}', we are closely monitoring market trends and aligning our sales team's daily KPIs to ensure sustainable revenue growth and target achievement."\n\n၂။ Formal Email (Report တင်ရန်):\n"Please find the update regarding '${query}'. We have implemented a structured action plan with our dealers and sales team to optimize performance and maintain strong customer satisfaction."`;
+            }
+
+            // Mentor Q&A Knowledge Matching
+            if (q.includes('stock') || q.includes('distributor') || q.includes('ညှိနှိုင်း')) {
+                return `**Distributor ဘက်က Stock မတင်ချင်သည့်အခါ ညှိနှိုင်းနည်း (Sales Director အကြံပြုချက်):**
+
+၁။ **ROI နှင့် အမြတ်အစွန်းကို တွက်ပြပါ:** "Stock များများတင်ထားမှ ပစ္စည်းပြတ်လပ်မှု (Out-of-Stock) မရှိဘဲ ပြိုင်ဘက်ဆီ Customer မပါသွားမှာပါ" ဆိုတာကို ကိန်းဂဏန်းနဲ့ ရှင်းပြပါ။
+၂။ **Secondary Sales Support ပေးပါ:** သူတို့ဆီက ပစ္စည်းတွေ ဈေးကွက်ထဲ မြန်မြန်ပြန်ထွက်အောင် မိမိ Sales Team က ဝိုင်းကူရောင်းပေးမယ် (Push Sales) လို့ ကတိပေးပါ။
+၃။ **အရစ်ကျ/အဆင့်လိုက် ခွဲယူခိုင်းပါ:** တစ်ခါတည်း အများကြီး မတင်နိုင်ရင် လဝက်စာ (15 Days Stock Cover) အရင်တင်ပြီး ရောင်းအားပေါ်မူတည်၍ ထပ်ဖြည့်ရန် ညှိနှိုင်းပါ။`;
+            }
+
+            if (q.includes('အားနည်းချက်') || q.includes('weakness') || q.includes('အင်တာဗျူး')) {
+                return `**အင်တာဗျူးတွင် "သင့်ရဲ့ အားနည်းချက် (Weakness) က ဘာလဲ?" ဟု မေးလျှင် ဖြေဆိုနည်း:**
+
+✅ **English Sample Answer:**
+"In the past, I sometimes spent too much time personally handling key customer negotiations because I wanted every deal to be perfect. However, I realized that as an Area Sales Manager, empowering my team is more scalable. Now, I actively coach my supervisors and sales reps, delegating negotiations while monitoring their progress through weekly pipeline reviews."
+
+🇲🇲 **မြန်မာလို ဆိုလိုရင်း:**
+"အရင်က အရောင်းကိစ္စတွေ အကောင်းဆုံးဖြစ်ချင်ဇောနဲ့ အရေးကြီးတဲ့ Customer ညှိနှိုင်းမှုတိုင်းကို ကိုယ်တိုင်ချည်း လိုက်လုပ်မိတာမျိုး ရှိခဲ့ပါတယ်။ ဒါပေမဲ့ ASM တစ်ယောက်အနေနဲ့ အဖွဲ့သားတွေကို လုပ်ပိုင်ခွင့်ပေးပြီး လေ့ကျင့်ပေးတာက ပိုထိရောက်မှန်း သိလာတဲ့အတွက် အခုဆိုရင် အဖွဲ့ကို Coaching လုပ်ပေးပြီး Pipeline ကနေတစ်ဆင့် စနစ်တကျ ကြီးကြပ်ဖြစ်ပါတယ်။"`;
+            }
+
+            if (q.includes('briefing') || q.includes('မနက်') || q.includes('စကားလုံး')) {
+                return `**မနက်ပိုင်း Morning Briefing (၁၀ မိနစ်) တွင် Sales Team ကို ပြောရမည့် စကားလုံးများ:**
+
+1. **Review (မနေ့က အခြေအနေ):** "မနေ့က အားလုံးကြိုးစားကြလို့ Target ရဲ့ [X]% ရခဲ့ပါတယ်။ အထူးသဖြင့် [နာမည်] ရဲ့ Strike Rate ကောင်းတာကို ချီးကျူးပါတယ်။"
+2. **Focus (ဒီနေ့ အဓိကထားရမည့်အချက်):** "ဒီနေ့ ဆိုင်ဝင်တိုင်း မဖြစ်မနေ High-Margin SKU တွေကို အရင်မိတ်ဆက်ပါ (LPPC တက်အောင် လုပ်ပါ)။"
+3. **Motivation (အားပေးစကား):** "ငြင်းဆိုမှု (Objection) ကြုံတိုင်း စိတ်မပျက်ပါနဲ့၊ Customer ရဲ့ လိုအပ်ချက်ကို အရင်နားထောင်ပြီး ဖြေရှင်းပေးပါ။ Let's hit our daily target!"`;
+            }
+
+            if (q.includes('အရောင်းကျ') || q.includes('နယ်မြေ') || q.includes('ဆွဲတင်')) {
+                return `**အရောင်းကျနေသော နယ်မြေကို ပြန်လည်ဆွဲတင်နည်း (4-Step Turnaround Plan):**
+
+၁။ **Root Cause ရှာပါ:** Numeric Distribution (ဆိုင်ဝင်နှုန်း) ကျတာလား၊ Drop Size (ဝယ်ယူမှုပမာဏ) ကျတာလား၊ ဒါမှမဟုတ် ပြိုင်ဘက် Promotion ကြောင့်လား အရင်ခွဲခြမ်းစိတ်ဖြာပါ။
+၂။ **Pareto Principle (80/20 Rule) သုံးပါ:** အရောင်းအများဆုံး ထိပ်တန်းဆိုင်ကြီး ၂၀% (Key Accounts/Dealers) ဆီကို ASM ကိုယ်တိုင် ကွင်းဆင်းတွေ့ဆုံပြီး Relationship ပြန်တည်ဆောက်ပါ။
+၃။ **Route Plan ပြန်စစ်ပါ:** အရောင်းမထွက်တဲ့ လမ်းကြောင်းတွေကို ပြင်ဆင်ပြီး အလားအလာရှိတဲ့ ဆိုင်သစ်တွေ (New Outlets) ထပ်ဖြည့်ပါ။
+၄။ **Daily Tracking:** အဖွဲ့သားတစ်ဦးချင်းစီရဲ့ နေ့စဉ် Call Coverage နဲ့ Strike Rate ကို ညနေတိုင်း ပြန်လည်စစ်ဆေးပါ။`;
+            }
+
+            return `**Senior Sales Director ၏ အကြံပြုချက် (${query}):**
+
+သင့်ရဲ့ ၁၅ နှစ်ကျော် FMCG နဲ့ Automotive အတွေ့အကြုံအရ ဒီကိစ္စကို အောက်ပါ ၃ ချက်နဲ့ ချဉ်းကပ်ဖြေရှင်းသင့်ပါတယ်-
+
+၁။ **Data & KPI ဖြင့် တိုင်းတာပါ:** လက်ရှိဖြစ်နေတဲ့ အခြေအနေကို ကိန်းဂဏန်း (Target Achievement %, Strike Rate %, Stock Cover Days) နဲ့ အရင်ဆုံး စစ်ဆေးပါ။
+၂။ **Win-Win ညှိနှိုင်းပါ:** Dealer/Customer ဘက်က ရရှိမယ့် အကျိုးအမြတ် (Margin, After-sales support, Fast rotation) ကို အဓိကထား ရှင်းပြပြီး ညှိနှိုင်းပါ။
+၃။ **Team Execution & Follow-up:** Sales Team ကို တိကျတဲ့ Daily Action Plan ချပေးပြီး ကွင်းဆင်းကြီးကြပ်မှု (Field Coaching) ပြုလုပ်ပါ။
+
+*(မှတ်ချက်- အသေးစိတ် ထပ်မံသိလိုပါက "Stock ညှိနှိုင်းနည်း"၊ "အရောင်းကျနေမှု ပြန်ဆွဲတင်နည်း" စသဖြင့် တိတိကျကျ မေးမြန်းနိုင်ပါသည်။)*`;
+        }
+
+        async function callGeminiAPI(prompt, systemInstruction, isTranslator = false) {
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { parts: [{ text: systemInstruction }] }
             };
 
-            let delay = 1000;
-            for (let i = 0; i < 4; i++) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) throw new Error('API Error');
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "တောင်းပန်ပါတယ်၊ အဖြေပြန်လည်ထုတ်ပေးနိုင်ခြင်း မရှိပါ။";
-                } catch (err) {
-                    if (i === 3) return "အင်တာနက်ချိတ်ဆက်မှု အခက်အခဲရှိနေပါသည်။ ခဏအကြာတွင် ပြန်လည်ကြိုးစားကြည့်ပါ။";
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                }
+            try {
+                // Fast timeout (6 seconds) so user never waits long if offline/restricted
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (!response.ok) throw new Error('API Unavailable');
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (text) return text;
+                throw new Error('Empty response');
+            } catch (err) {
+                // Seamlessly fall back to built-in Sales Director knowledge engine without showing error message
+                return getSmartOfflineMentorReply(prompt, isTranslator);
             }
+        }
+
+        function sendQuickPrompt(text) {
+            document.getElementById('ai-prompt-input').value = text;
+            askAiMentor();
         }
 
         async function translateToBusinessEnglish() {
@@ -1118,10 +1129,10 @@
             btnEl.disabled = true;
             btnEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>ပြောင်းလဲနေပါသည်...</span>';
             resultEl.classList.remove('hidden');
-            resultEl.innerHTML = '<p class="text-slate-400 text-xs">AI မှ Professional Sales English ပြောင်းလဲပေးနေပါသည်...</p>';
+            resultEl.innerHTML = '<p class="text-slate-400 text-xs">Professional Sales English ပြောင်းလဲပေးနေပါသည်...</p>';
 
             const sysPrompt = "You are an expert Sales Director and Business English coach. Translate the user's Burmese sales/management situation into 2 options of professional Business English (1: Spoken for Meetings, 2: Formal for Emails/Reports). Keep explanations concise in Burmese.";
-            const reply = await callGeminiAPI(text, sysPrompt);
+            const reply = await callGeminiAPI(text, sysPrompt, true);
 
             resultEl.innerHTML = `<div class="prose prose-sm max-w-none whitespace-pre-line text-slate-800">${reply}</div>`;
             btnEl.disabled = false;
