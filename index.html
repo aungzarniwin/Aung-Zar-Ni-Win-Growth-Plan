@@ -124,6 +124,10 @@
                     <i class="fa-solid fa-id-badge"></i>
                     <span>My Career Profile (15+ Yrs)</span>
                 </button>
+                <button onclick="switchTab('knowledge')" id="tab-knowledge" class="text-slate-500 hover:text-slate-700 whitespace-nowrap py-3 px-1 text-sm font-medium transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>Knowledge (KPI & Numeric)</span>
+                </button>
             </nav>
         </div>
     </header>
@@ -467,6 +471,223 @@
             </div>
         </section>
 
+        <!-- ========================================== -->
+        <!-- SECTION 6: SALES KNOWLEDGE (KPI & NUMERIC) -->
+        <!-- ========================================== -->
+        <section id="section-knowledge" class="hidden fade-in space-y-6">
+            <!-- Header Banner -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+                <h2 class="text-lg font-bold text-slate-900">Sales Management Knowledge: KPI ရေးဆွဲနည်းနှင့် Numeric တွက်ချက်နည်းများ</h2>
+                <p class="text-sm text-slate-500 mt-1">Area Sales Manager တစ်ယောက်အနေဖြင့် လုပ်ငန်းခွင်နှင့် အင်တာဗျူးများတွင် ကျွမ်းကျင်ပိုင်နိုင်စွာ အသုံးချရမည့် ကိန်းဂဏန်း ဖော်မြူလာများ</p>
+            </div>
+
+            <!-- Interactive Sales & Distribution Calculator -->
+            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-6 shadow-md space-y-5">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                    <h3 class="font-bold text-base text-amber-400 flex items-center">
+                        <i class="fa-solid fa-calculator mr-2"></i>ASM Quick Calculator (လက်တွေ့ တွက်ချက်ကြည့်ရန်)
+                    </h3>
+                    <span class="text-xs text-slate-300">ကိန်းဂဏန်းထည့်ပြီး ချက်ချင်းတွက်ပါ</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Calc 1: Target Achievement & Growth -->
+                    <div class="bg-white/10 p-4 rounded-xl border border-white/10 space-y-3">
+                        <h4 class="text-sm font-bold text-sky-300">၁။ Target Achievement % & Sales Growth % တွက်စက်</h4>
+                        <div class="grid grid-cols-3 gap-2 text-xs">
+                            <div>
+                                <label class="block text-slate-300 mb-1">Target (လျာထားချက်)</label>
+                                <input type="number" id="calc-target" placeholder="1000" oninput="calculateSalesMetrics()" class="w-full px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:border-sky-400">
+                            </div>
+                            <div>
+                                <label class="block text-slate-300 mb-1">Actual (ယခုအရောင်း)</label>
+                                <input type="number" id="calc-actual" placeholder="1120" oninput="calculateSalesMetrics()" class="w-full px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:border-sky-400">
+                            </div>
+                            <div>
+                                <label class="block text-slate-300 mb-1">Last Period (ယခင်)</label>
+                                <input type="number" id="calc-last" placeholder="950" oninput="calculateSalesMetrics()" class="w-full px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:border-sky-400">
+                            </div>
+                        </div>
+                        <div class="flex justify-between pt-2 border-t border-white/10 text-xs">
+                            <div>Achievement: <span id="res-ach" class="font-bold text-emerald-400 text-sm">0%</span></div>
+                            <div>Sales Growth: <span id="res-growth" class="font-bold text-amber-300 text-sm">0%</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Calc 2: Numeric Distribution & Strike Rate -->
+                    <div class="bg-white/10 p-4 rounded-xl border border-white/10 space-y-3">
+                        <h4 class="text-sm font-bold text-emerald-300">၂။ Numeric Distribution % & Strike Rate % တွက်စက်</h4>
+                        <div class="grid grid-cols-3 gap-2 text-xs">
+                            <div>
+                                <label class="block text-slate-300 mb-1">Total Outlets (ဆိုင်ပေါင်း)</label>
+                                <input type="number" id="calc-total-outlets" placeholder="500" oninput="calculateDistMetrics()" class="w-full px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:border-emerald-400">
+                            </div>
+                            <div>
+                                <label class="block text-slate-300 mb-1">Active/Visited (ရောက်/ရှိ)</label>
+                                <input type="number" id="calc-active-outlets" placeholder="350" oninput="calculateDistMetrics()" class="w-full px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:border-emerald-400">
+                            </div>
+                            <div>
+                                <label class="block text-slate-300 mb-1">Productive Calls (ဝယ်ဆိုင်)</label>
+                                <input type="number" id="calc-prod-calls" placeholder="280" oninput="calculateDistMetrics()" class="w-full px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:border-emerald-400">
+                            </div>
+                        </div>
+                        <div class="flex justify-between pt-2 border-t border-white/10 text-xs">
+                            <div>Numeric Dist: <span id="res-nd" class="font-bold text-sky-400 text-sm">0%</span></div>
+                            <div>Strike Rate: <span id="res-strike" class="font-bold text-emerald-400 text-sm">0%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 1: How to Write & Structure ASM KPIs -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                <div class="flex items-center space-x-2.5 border-b border-slate-100 pb-3">
+                    <div class="bg-primary-50 text-primary-600 p-2 rounded-lg"><i class="fa-solid fa-bullseye text-lg"></i></div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">အပိုင်း (၁) - ASM နှင့် Sales Team အတွက် KPI ရေးဆွဲနည်း (SMART KPI Framework)</h3>
+                        <p class="text-xs text-slate-500">KPI ရေးဆွဲရာတွင် <strong>SMART</strong> (Specific, Measurable, Achievable, Relevant, Time-bound) ဖြစ်ရမည့်အပြင် စုစုပေါင်း အလေးချိန် <strong>100% Weightage</strong> ဖြင့် ခွဲဝေသတ်မှတ်ရပါမည်။</p>
+                    </div>
+                </div>
+
+                <!-- Sample KPI Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase">
+                                <th class="py-3 px-4 font-bold">KPI Category (အမျိုးအစား)</th>
+                                <th class="py-3 px-4 font-bold">Weightage (အလေးချိန်)</th>
+                                <th class="py-3 px-4 font-bold">KPI Statement / Target ရေးသားပုံ နမူနာ</th>
+                                <th class="py-3 px-4 font-bold">Measurement (တိုင်းတာပုံ)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-slate-700">
+                            <tr class="hover:bg-slate-50/70">
+                                <td class="py-3 px-4 font-semibold text-primary-700">1. Sales Volume / Revenue</td>
+                                <td class="py-3 px-4"><span class="bg-primary-100 text-primary-700 font-bold px-2 py-0.5 rounded text-xs">40%</span></td>
+                                <td class="py-3 px-4">လစဉ်/သုံးလပတ် သတ်မှတ်ထားသော အရောင်းပမာဏ (Target) ၏ 100% နှင့်အထက် ပြည့်မီအောင် ရောင်းချရန်။</td>
+                                <td class="py-3 px-4 text-xs text-slate-500">(Actual Sales ÷ Target) × 100</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70">
+                                <td class="py-3 px-4 font-semibold text-emerald-700">2. Numeric & New Accounts</td>
+                                <td class="py-3 px-4"><span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded text-xs">20%</span></td>
+                                <td class="py-3 px-4">သတ်မှတ်နယ်မြေအတွင်း ဆိုင်သစ် (New Outlets / Corporate Accounts) တစ်လလျှင် အနည်းဆုံး ၁၅ ဆိုင် တိုးချဲ့ဖွင့်လှစ်ရန်။</td>
+                                <td class="py-3 px-4 text-xs text-slate-500">Active Billed Outlets Count</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70">
+                                <td class="py-3 px-4 font-semibold text-amber-700">3. Receivables & Collection</td>
+                                <td class="py-3 px-4"><span class="bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded text-xs">15%</span></td>
+                                <td class="py-3 px-4">အကြွေးရောင်းချထားသော ငွေများ (Account Receivables) ကို သတ်မှတ်ရက် (Credit Term) အတွင်း 98% ကောက်ခံရရှိရန်။</td>
+                                <td class="py-3 px-4 text-xs text-slate-500">(Collected ÷ Due Amount) × 100</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70">
+                                <td class="py-3 px-4 font-semibold text-purple-700">4. SKU / Product Mix</td>
+                                <td class="py-3 px-4"><span class="bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded text-xs">15%</span></td>
+                                <td class="py-3 px-4">အမြတ်အစွန်းများသော ထုတ်ကုန် (High-Margin SKUs) နှင့် ထုတ်ကုန်သစ်များကို ဆိုင်တိုင်းတွင် အနည်းဆုံး ၃ မျိုး (LPPC) ဝင်အောင် ရောင်းချရန်။</td>
+                                <td class="py-3 px-4 text-xs text-slate-500">Total Lines Sold ÷ Productive Calls</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/70">
+                                <td class="py-3 px-4 font-semibold text-rose-700">5. Team & Execution Discipline</td>
+                                <td class="py-3 px-4"><span class="bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded text-xs">10%</span></td>
+                                <td class="py-3 px-4">Journey Plan (JP) အတိုင်း 95% ဆိုင်ဝင်ရောက်ခြင်း၊ POSM ခင်းကျင်းခြင်းနှင့် နေ့စဉ် Report အချိန်မီတင်ပြခြင်း။</td>
+                                <td class="py-3 px-4 text-xs text-slate-500">(Actual Visits ÷ Planned Visits) × 100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Part 2: Numeric Distribution & Essential Sales Formulas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Formula Card 1: Numeric Distribution -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-md">Distribution Metric</span>
+                        <span class="text-xs text-slate-400 font-mono">ND %</span>
+                    </div>
+                    <h4 class="font-bold text-base text-slate-900">၁။ Numeric Distribution (ND) တွက်နည်း</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">မိမိနယ်မြေအတွင်းရှိ စုစုပေါင်း ရောင်းချနိုင်သော ဆိုင်အရေအတွက် (Universe) ထဲမှ မိမိတို့ကုန်ပစ္စည်း တင်ရောင်းနေသော ဆိုင်ရာခိုင်နှုန်းဖြစ်သည်။</p>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-xs text-primary-700 font-semibold">
+                        ND (%) = (မိမိပစ္စည်းရှိသော ဆိုင်ပေါင်း ÷ နယ်မြေရှိ ဆိုင်စုစုပေါင်း) × 100
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>ဥပမာ-</strong> မြို့နယ်ထဲတွင် စတိုးဆိုင် ၅၀၀ ရှိသည့်အနက် ၃၅၀ ဆိုင်တွင် မိမိပစ္စည်းရှိလျှင် ND = (350 ÷ 500) × 100 = <strong>70%</strong> ဖြစ်သည်။</p>
+                </div>
+
+                <!-- Formula Card 2: Weighted Distribution -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-md">Quality Distribution</span>
+                        <span class="text-xs text-slate-400 font-mono">WD %</span>
+                    </div>
+                    <h4 class="font-bold text-base text-slate-900">၂။ Weighted Distribution (WD) တွက်နည်း</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">ဆိုင်အရေအတွက်ထက် <strong>"အရောင်းအများဆုံး ထိပ်တန်းဆိုင်ကြီးများ (Key Outlets)"</strong> တွင် မိမိပစ္စည်း ဘယ်လောက်နေရာယူထားနိုင်သလဲ တိုင်းတာခြင်းဖြစ်သည်။</p>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-xs text-indigo-700 font-semibold">
+                        WD (%) = (မိမိပစ္စည်းရှိသော ဆိုင်များ၏ စုစုပေါင်း Category ရောင်းအား ÷ ဈေးကွက်တစ်ခုလုံး၏ Category ရောင်းအား) × 100
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>မှတ်ချက်-</strong> ND နည်းသော်လည်း WD မြင့်နေပါက ရောင်းအားကောင်းသော ဆိုင်ကြီးများကို မိမိတို့ ပိုင်ဆိုင်ထားသည်ဟု ဆိုလိုသည်။</p>
+                </div>
+
+                <!-- Formula Card 3: Strike Rate & Call Coverage -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-md">Sales Force Efficiency</span>
+                        <span class="text-xs text-slate-400 font-mono">Strike Rate</span>
+                    </div>
+                    <h4 class="font-bold text-base text-slate-900">၃။ Strike Rate (အရောင်းဖြစ်မြောက်မှုနှုန်း) & Call Coverage</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Sales Rep များ ဝင်ရောက်တွေ့ဆုံခဲ့သော ဆိုင်များအနက် အမှန်တကယ် အော်ဒါရရှိခဲ့သော ဆိုင်ရာခိုင်နှုန်းဖြစ်သည်။</p>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-xs text-emerald-700 font-semibold space-y-1">
+                        <div>Call Coverage (%) = (Visited Outlets ÷ Planned Outlets) × 100</div>
+                        <div>Strike Rate (%) = (Productive Calls ÷ Visited Outlets) × 100</div>
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>ဥပမာ-</strong> ဆိုင် ၂၀ ဝင်ရာတွင် ၁၆ ဆိုင် ဝယ်ယူပါက Strike Rate = (16 ÷ 20) × 100 = <strong>80%</strong> ဖြစ်သည်။</p>
+                </div>
+
+                <!-- Formula Card 4: LPPC & Drop Size -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-md">Order Value & Depth</span>
+                        <span class="text-xs text-slate-400 font-mono">LPPC & Drop Size</span>
+                    </div>
+                    <h4 class="font-bold text-base text-slate-900">၄။ LPPC (Lines Per Productive Call) & Average Drop Size</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">ဆိုင်တစ်ဆိုင်ဝယ်လျှင် ပစ္စည်းအမျိုးအစား (SKU) ဘယ်နှစ်မျိုး ဝယ်သလဲနှင့် ဘောက်ချာတစ်စောင် ပျမ်းမျှတန်ဖိုး ဘယ်လောက်ရှိသလဲ တွက်ချက်နည်း။</p>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-xs text-amber-700 font-semibold space-y-1">
+                        <div>LPPC = စုစုပေါင်း ရောင်းရသော SKU အကြိမ်ရေ ÷ ဝယ်ယူသော ဆိုင်ပေါင်း</div>
+                        <div>Drop Size = စုစုပေါင်း အရောင်းတန်ဖိုး (Revenue) ÷ ဘောက်ချာအရေအတွက်</div>
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>အသုံးဝင်ပုံ-</strong> အရောင်းတက်ရန် Customer အသစ်ရှာခြင်းအပြင် ရှိပြီးသားဆိုင်များ၏ LPPC နှင့် Drop Size တိုးအောင် Up-selling / Cross-selling လုပ်ရပါမည်။</p>
+                </div>
+
+                <!-- Formula Card 5: ROI & Gross Margin -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-md">Financial & Budget</span>
+                        <span class="text-xs text-slate-400 font-mono">ROI & Margin</span>
+                    </div>
+                    <h4 class="font-bold text-base text-slate-900">၅။ Promotion ROI & Gross Profit Margin တွက်နည်း</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">MBA နှင့် ASM အဆင့်တွင် A&P Budget သုံးစွဲမှု အကျိုးရှိမရှိ တိုင်းတာသော ဖော်မြူလာဖြစ်သည်။</p>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-xs text-purple-700 font-semibold space-y-1">
+                        <div>Gross Margin (%) = [(Revenue - COGS) ÷ Revenue] × 100</div>
+                        <div>Promo ROI (%) = [(အပိုတိုးလာသော အမြတ် - Promo စရိတ်) ÷ Promo စရိတ်] × 100</div>
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>မှတ်ချက်-</strong> ပရိုမိုးရှင်းလုပ်ပြီး အရောင်းတက်သော်လည်း ROI အနုတ်ပြနေပါက ထိုပရိုမိုးရှင်းသည် အရှုံးပေါ်နေခြင်းဖြစ်သည်။</p>
+                </div>
+
+                <!-- Formula Card 6: Stock Cover Days & Market Share -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-1 rounded-md">Inventory & Market</span>
+                        <span class="text-xs text-slate-400 font-mono">Stock Days & Share</span>
+                    </div>
+                    <h4 class="font-bold text-base text-slate-900">၆။ Stock Cover Days (ကုန်လက်ကျန်ရက်) & Market Share</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">Distributor ထံတွင် ပစ္စည်းပြတ်လပ်မှု (Out of Stock) နှင့် ပစ္စည်းပုံနေမှု (Overstock) မဖြစ်စေရန် ထိန်းချုပ်တွက်ချက်နည်း။</p>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-xs text-rose-700 font-semibold space-y-1">
+                        <div>Stock Cover Days = လက်ရှိ Stock လက်ကျန် ÷ တစ်ရက်ပျမ်းမျှ ရောင်းအား</div>
+                        <div>Market Share (%) = (မိမိကုမ္ပဏီ ရောင်းအား ÷ ဈေးကွက်တစ်ခုလုံး ရောင်းအား) × 100</div>
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>ဥပမာ-</strong> Stock ၃၀၀ ရှိပြီး တစ်ရက်ပျမ်းမျှ ၁၅ လုံးရောင်းရပါက Stock Cover Days = 300 ÷ 15 = <strong>၂၀ ရက်စာ</strong> ကျန်ရှိသည်။</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -642,7 +863,7 @@
         // --- 4. TAB NAVIGATION ---
         function switchTab(tabId) {
             // Hide all sections
-            ['daily', 'english', 'interview-prep', 'interview-qa', 'profile'].forEach(id => {
+            ['daily', 'english', 'interview-prep', 'interview-qa', 'profile', 'knowledge'].forEach(id => {
                 document.getElementById(`section-${id}`).classList.add('hidden');
                 const tabBtn = document.getElementById(`tab-${id}`);
                 tabBtn.classList.remove('tab-active');
@@ -963,6 +1184,30 @@
         }
 
         // --- 9. UTILITY FUNCTIONS ---
+        function calculateSalesMetrics() {
+            const target = parseFloat(document.getElementById('calc-target').value) || 0;
+            const actual = parseFloat(document.getElementById('calc-actual').value) || 0;
+            const last = parseFloat(document.getElementById('calc-last').value) || 0;
+
+            const ach = target > 0 ? ((actual / target) * 100).toFixed(1) : 0;
+            const growth = last > 0 ? (((actual - last) / last) * 100).toFixed(1) : 0;
+
+            document.getElementById('res-ach').textContent = `${ach}%`;
+            document.getElementById('res-growth').textContent = `${growth > 0 ? '+' : ''}${growth}%`;
+        }
+
+        function calculateDistMetrics() {
+            const total = parseFloat(document.getElementById('calc-total-outlets').value) || 0;
+            const active = parseFloat(document.getElementById('calc-active-outlets').value) || 0;
+            const prod = parseFloat(document.getElementById('calc-prod-calls').value) || 0;
+
+            const nd = total > 0 ? ((active / total) * 100).toFixed(1) : 0;
+            const strike = active > 0 ? ((prod / active) * 100).toFixed(1) : 0;
+
+            document.getElementById('res-nd').textContent = `${nd}%`;
+            document.getElementById('res-strike').textContent = `${strike}%`;
+        }
+
         function copyExecutivePitch() {
             const pitch = document.getElementById('executive-pitch-text').textContent.trim().replace(/^"|"$/g, '');
             copyText(pitch);
