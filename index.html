@@ -95,7 +95,7 @@
                         <span id="current-date" class="text-xs font-medium text-slate-500"></span>
                         <span class="text-xs font-semibold text-secondary-600"><i class="fa-solid fa-fire mr-1"></i>Keep Pushing Targets!</span>
                     </div>
-                    <button onclick="openAiCoachModal()" class="bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl shadow transition flex items-center space-x-2">
+                    <button onclick="openAiCoachModal()" class="bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl shadow transition flex items-center space-x-2 cursor-pointer">
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
                         <span>AI Mentor</span>
                     </button>
@@ -701,7 +701,7 @@
     <!-- AI MENTOR MODAL                            -->
     <!-- ========================================== -->
     <div id="ai-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden fade-in">
             <!-- Modal Header -->
             <div class="bg-gradient-to-r from-primary-600 to-indigo-600 px-6 py-4 flex justify-between items-center text-white">
                 <div class="flex items-center space-x-2.5">
@@ -873,7 +873,6 @@
 
         // --- 4. TAB NAVIGATION ---
         function switchTab(tabId) {
-            // Hide all sections
             ['daily', 'english', 'interview-prep', 'interview-qa', 'profile', 'knowledge'].forEach(id => {
                 document.getElementById(`section-${id}`).classList.add('hidden');
                 const tabBtn = document.getElementById(`tab-${id}`);
@@ -881,7 +880,6 @@
                 tabBtn.classList.add('text-slate-500');
             });
 
-            // Show selected section
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tab-${tabId}`);
             activeBtn.classList.add('tab-active');
@@ -986,6 +984,19 @@
         }
 
         // --- 6. ENGLISH MATERIALS FUNCTIONS ---
+        function filterEnglish(filter) {
+            document.querySelectorAll('.eng-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.remove('bg-slate-100', 'text-slate-600', 'hover:bg-slate-200');
+                    btn.classList.add('bg-primary-600', 'text-white');
+                } else {
+                    btn.classList.remove('bg-primary-600', 'text-white');
+                    btn.classList.add('bg-slate-100', 'text-slate-600', 'hover:bg-slate-200');
+                }
+            });
+            renderEnglishMaterials(filter);
+        }
+
         function renderEnglishMaterials(filter) {
             const grid = document.getElementById('english-content-grid');
             const filtered = filter === 'all' ? englishMaterials : englishMaterials.filter(m => m.type === filter);
@@ -1001,12 +1012,12 @@
                 email: 'Email / Report'
             };
 
-            grid.innerHTML = filtered.map((item, idx) => `
+            grid.innerHTML = filtered.map((item) => `
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
                     <div class="space-y-2">
                         <div class="flex justify-between items-start">
                             <span class="text-xs font-semibold px-2.5 py-1 rounded-md ${badgeColors[item.type]}">${badgeNames[item.type]}</span>
-                            <button onclick="copyText(\`${item.example.replace(/"/g, '&quot;').replace(/\n/g, '\\n')}\`)" class="text-slate-400 hover:text-primary-600 text-xs flex items-center space-x-1 transition" title="Copy Example">
+                            <button onclick='copyText(${JSON.stringify(item.example)})' class="text-slate-400 hover:text-primary-600 text-xs flex items-center space-x-1 transition" title="Copy Example">
                                 <i class="fa-regular fa-copy"></i>
                                 <span>Copy</span>
                             </button>
@@ -1015,10 +1026,68 @@
                         <p class="text-xs font-medium text-primary-600">${item.mmTitle}</p>
                         <p class="text-sm text-slate-600 leading-relaxed">${item.content}</p>
                     </div>
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-800 whitespace-pre-line leading-relaxed">
+                        ${item.example}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- 7. INTERVIEW Q&A FUNCTIONS ---
+        function renderInterviewQAs() {
+            const container = document.getElementById('qa-container');
+            container.innerHTML = interviewQAs.map((qa, index) => `
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <button onclick="toggleAnswer(${index})" class="w-full text-left p-5 flex justify-between items-center gap-4 hover:bg-slate-50 transition">
+                        <div class="space-y-1">
+                            <h3 class="font-bold text-sm sm:text-base text-slate-900">${qa.qEn}</h3>
+                            <p class="text-xs text-primary-600 font-medium">${qa.qMm}</p>
+                        </div>
+                        <i id="qa-icon-${index}" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div id="qa-answer-${index}" class="hidden px-5 pb-5 pt-2 border-t border-slate-100 bg-slate-50/50 space-y-3">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded">Sample English Answer</span>
+                                <button onclick='copyText(${JSON.stringify(qa.aEn)})' class="text-xs text-slate-400 hover:text-primary-600 flex items-center space-x-1">
+                                    <i class="fa-regular fa-copy"></i><span>Copy</span>
+                                </button>
+                            </div>
+                            <p class="text-sm text-slate-800 leading-relaxed">${qa.aEn}</p>
+                        </div>
+                        <div class="bg-primary-50/60 p-4 rounded-xl border border-primary-100 space-y-1">
+                            <span class="text-xs font-bold text-primary-700">မြန်မာဘာသာ ရှင်းလင်းချက်</span>
+                            <p class="text-sm text-slate-700 leading-relaxed">${qa.aMm}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAnswer(index) {
+            const ansEl = document.getElementById(`qa-answer-${index}`);
+            const iconEl = document.getElementById(`qa-icon-${index}`);
+            ansEl.classList.toggle('hidden');
+            iconEl.classList.toggle('rotate-180');
+        }
+
+        function toggleAllAnswers(show) {
+            interviewQAs.forEach((_, index) => {
+                const ansEl = document.getElementById(`qa-answer-${index}`);
+                const iconEl = document.getElementById(`qa-icon-${index}`);
+                if (show) {
+                    ansEl.classList.remove('hidden');
+                    iconEl.classList.add('rotate-180');
+                } else {
+                    ansEl.classList.add('hidden');
+                    iconEl.classList.remove('rotate-180');
+                }
+            });
+        }
+
         // --- 8. GEMINI API INTEGRATION (AI MENTOR & TRANSLATOR WITH SMART FALLBACK) ---
         const apiKey = ""; // Provided automatically in runtime
 
-        // Smart Built-in Sales Director Knowledge Base (Works instantly even if API/Network fails)
         function getSmartOfflineMentorReply(query, isTranslator = false) {
             const q = query.toLowerCase();
 
@@ -1032,7 +1101,6 @@
                 return `၁။ Spoken (အစည်းအဝေးတွင် ပြောရန်):\n"Regarding '${query}', we are closely monitoring market trends and aligning our sales team's daily KPIs to ensure sustainable revenue growth and target achievement."\n\n၂။ Formal Email (Report တင်ရန်):\n"Please find the update regarding '${query}'. We have implemented a structured action plan with our dealers and sales team to optimize performance and maintain strong customer satisfaction."`;
             }
 
-            // Mentor Q&A Knowledge Matching
             if (q.includes('stock') || q.includes('distributor') || q.includes('ညှိနှိုင်း')) {
                 return `**Distributor ဘက်က Stock မတင်ချင်သည့်အခါ ညှိနှိုင်းနည်း (Sales Director အကြံပြုချက်):**
 
@@ -1080,14 +1148,17 @@
         }
 
         async function callGeminiAPI(prompt, systemInstruction, isTranslator = false) {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            if (!apiKey) {
+                return getSmartOfflineMentorReply(prompt, isTranslator);
+            }
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { parts: [{ text: systemInstruction }] }
             };
 
             try {
-                // Fast timeout (6 seconds) so user never waits long if offline/restricted
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 6000);
 
@@ -1105,7 +1176,6 @@
                 if (text) return text;
                 throw new Error('Empty response');
             } catch (err) {
-                // Seamlessly fall back to built-in Sales Director knowledge engine without showing error message
                 return getSmartOfflineMentorReply(prompt, isTranslator);
             }
         }
@@ -1141,6 +1211,9 @@
 
         function openAiCoachModal() {
             document.getElementById('ai-modal').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('ai-prompt-input').focus();
+            }, 100);
         }
 
         function closeAiCoachModal() {
@@ -1155,18 +1228,19 @@
 
             if (!question) return;
 
-            // Append User Message
+            // Escape HTML to prevent injection
+            const safeQuestion = question.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
             chatBox.innerHTML += `
                 <div class="flex justify-end">
                     <div class="bg-primary-600 text-white p-3.5 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm">
-                        ${question}
+                        ${safeQuestion}
                     </div>
                 </div>
             `;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Loading indicator
             const loadingId = 'loading-' + Date.now();
             chatBox.innerHTML += `
                 <div id="${loadingId}" class="flex justify-start">
@@ -1182,12 +1256,19 @@
             const sysPrompt = "You are a highly experienced Regional Sales Director mentoring an Area Sales Manager (ASM) in Myanmar. Answer practical questions about sales operations, distributor management, team motivation, Sales English, and ASM job interviews. Respond primarily in clear, encouraging Burmese, including relevant English sales terms where helpful.";
             const answer = await callGeminiAPI(question, sysPrompt);
 
-            document.getElementById(loadingId).remove();
+            const loadingEl = document.getElementById(loadingId);
+            if (loadingEl) loadingEl.remove();
+
+            // Format bold markdown (**text**) cleanly
+            const formattedAnswer = answer
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
+
             chatBox.innerHTML += `
                 <div class="flex justify-start">
-                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-slate-800 max-w-[90%] shadow-sm whitespace-pre-line leading-relaxed">
-                        ${answer}
-                    </div>
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-slate-800 max-w-[90%] shadow-sm whitespace-pre-line leading-relaxed">${formattedAnswer}</div>
                 </div>
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
